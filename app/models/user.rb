@@ -9,6 +9,11 @@ class User < ApplicationRecord
 
   has_one_attached :avatar
   has_many :articles, dependent: :destroy
+  attr_accessor :role
+  validates :role, presence: true, inclusion: { in: ['Doctor', 'Patient'] }
+  validates :type, presence: true
+  self.inheritance_column = :type # Specify the column for STI
+
 
   def name
     @name ||= self[:name].presence || email.split("@").first
