@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_07_110125) do
+ActiveRecord::Schema[7.0].define(version: 2024_06_08_140143) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -61,23 +61,27 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_07_110125) do
     t.index ["user_id"], name: "index_articles_on_user_id"
   end
 
-  create_table "doctors", force: :cascade do |t|
-    t.string "degree"
-    t.string "specialization"
+  create_table "doctor_profiles", force: :cascade do |t|
+    t.bigint "doctor_id", null: false
+    t.string "specialty"
+    t.text "bio"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["doctor_id"], name: "index_doctor_profiles_on_doctor_id"
   end
 
-  create_table "patients", force: :cascade do |t|
+  create_table "patient_profiles", force: :cascade do |t|
+    t.bigint "patient_id", null: false
+    t.text "medical_history"
     t.date "date_of_birth"
     t.string "blood_type"
-    t.text "medical_history"
     t.text "allergies"
     t.string "emergency_contact_name"
     t.string "emergency_contact_phone"
     t.string "insurance_provider"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["patient_id"], name: "index_patient_profiles_on_patient_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -99,4 +103,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_07_110125) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "doctor_profiles", "users", column: "doctor_id", on_delete: :cascade
+  add_foreign_key "patient_profiles", "users", column: "patient_id", on_delete: :cascade
 end
