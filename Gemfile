@@ -5,6 +5,7 @@ ruby File.read(".ruby-version").strip
 gem "rails", "~> 7.0"
 gem "pg", "~> 1.4"
 gem "puma", "~> 6.4"
+gem "bootstrap"
 gem "bootsnap", "~> 1.13", require: false
 gem "devise", "~> 4.8"
 gem "omniauth-facebook", "~> 9.0"
@@ -28,4 +29,5 @@ group :development do
   gem "web-console"
   gem "debug"
   gem "dotenv-rails"
+  gem 'letter_opener'
 end
