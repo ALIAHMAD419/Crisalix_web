@@ -15,9 +15,12 @@ Rails.application.routes.draw do
   resources :patients do
     member do
       get 'edit_password'
+      get 'show_patient'
       patch 'update_password'
     end
   end
+  resources :appointments
+
   resource :user, only: %i[edit update destroy]
   resources :users, only: %i[index show]
 

@@ -1,0 +1,60 @@
+<%= form_for(@appointment) do |f| %>
+  <%= render "application/error_messages", object: @appointment %>
+
+  <% if @appointment.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@appointment.errors.count, "error") %> prohibited this appointment from being saved:</h2>
+      <ul>
+        <% @appointment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div>
+    <%= f.label :doctor_id, 'Doctor' %>
+    <%= f.collection_select :doctor_id, @doctors, :id, :name, include_blank: 'Please select' %>
+  </div>
+
+  <div>
+    <%= f.label :appointment_date %>
+    <%= f.datetime_select :appointment_date %>
+  </div>
+
+  <div>
+    <%= f.label :status %>
+    <%= f.select :status, ['scheduled', 'completed', 'canceled'], include_blank: 'Please select' %>
+  </div>
+
+  
+  <% if @appointment.image1.present? %>
+      <%= image_tag @appointment.image1.url, style: 'height: 60px; width: 60px;' %>
+  <% end %>
+	<div>
+		<%= f.label :image1 %>
+		<%= f.file_field :image1, required: true %>
+	</div>
+
+  <% if @appointment.image2.present? %>
+      <%= image_tag @appointment.image2.url, style: 'height: 60px; width: 60px;' %>
+  <% end %>
+
+	<div>
+		<%= f.label :image2 %>
+		<%= f.file_field :image2, required: true %>
+	</div>
+
+  <% if @appointment.image3.present? %>
+		<%= image_tag @appointment.image3.url, style: 'height: 60px; width: 60px;' %>
+  <% end %>
+	<div>
+		<%= f.label :image3 %>
+		<%= f.file_field :image3, required: true %>
+	</div>
+
+
+  <div class="form-actions">
+    <%= f.submit nil, class: "btn" %>
+  </div>
+<% end %>

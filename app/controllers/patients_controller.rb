@@ -2,11 +2,14 @@
 class PatientsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_patient, only: %i[show edit update destroy edit_password update_password]
-  before_action :ensure_patient!
+  before_action :ensure_patient!, except: :show_patient
 
-  # def index
-  #   @patients = Patient.all
-  # end
+
+  def show_patient
+    @appointment =  Appointment.find_by_id(params[:id])
+    @patient = @appointment.patient
+    render :show
+  end
 
   def show
   end

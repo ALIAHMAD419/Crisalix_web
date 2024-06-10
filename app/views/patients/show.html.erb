@@ -5,11 +5,23 @@
   <p><strong>Gender:</strong> <%= @patient.gender %></p>
   <p><strong>Phone Number:</strong> <%= @patient.phone_number %></p>
   <p><strong>Address:</strong> <%= @patient.address %></p>
-  <p><strong>Medical History:</strong> <%= @profile.medical_history %></p>
-  <p><strong>Date of Birth:</strong> <%= @profile.date_of_birth %></p>
-  <p><strong>Blood Type:</strong> <%= @profile.blood_type %></p>
-  <p><strong>Allergies:</strong> <%= @profile.allergies %></p>
-  <p><strong>Emergency Contact Name:</strong> <%= @profile.emergency_contact_name %></p>
-  <p><strong>Emergency Contact Number:</strong> <%= @profile.emergency_contact_phone %></p>
-  <p><strong>Insurance Provider:</strong> <%= @profile.insurance_provider %></p>
+  <p><strong>Medical History:</strong> <%= @patient.patient_profile.medical_history %></p>
+  <p><strong>Date of Birth:</strong> <%= @patient.patient_profile.date_of_birth %></p>
+  <p><strong>Blood Type:</strong> <%= @patient.patient_profile.blood_type %></p>
+  <p><strong>Allergies:</strong> <%= @patient.patient_profile.allergies %></p>
+  <p><strong>Emergency Contact Name:</strong> <%= @patient.patient_profile.emergency_contact_name %></p>
+  <p><strong>Emergency Contact Number:</strong> <%= @patient.patient_profile.emergency_contact_phone %></p>
+  <p><strong>Insurance Provider:</strong> <%= @patient.patient_profile.insurance_provider %></p>
+  <p>
+    <strong>Images:</strong><br>
+    <% if @appointment.image1.present? %>
+      <%= image_tag @appointment.image1.url, style: 'height: 260px; width: 260px;' %><br>
+    <% end %>
+    <% if @appointment.image2.present? %>
+      <%= image_tag @appointment.image2.url, style: 'height: 260px; width: 260px;' %><br>
+    <% end %>
+    <% if @appointment.image3.present? %>
+      <%= image_tag @appointment.image3.url, style: 'height: 260px; width: 260px;' %><br>
+    <% end %>
+  </p>
 </div>

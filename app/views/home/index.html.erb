@@ -1,11 +1,22 @@
 <div class="text-center my-24">
-  <h1 class="tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
-    <span>Starter Kit</span><br>
-    <span class="text-indigo-600">Rails + Ralix + Tailwind</span>
-  </h1>
+  <% if user_signed_in? %>
+    <h1 class="tracking-tight text-gray-900 sm:text-5xl md:text-6xl">
+      <span>Main page for <%= current_user&.name %></span><br>
+      <span class="text-indigo-600"></span>
+      <span class="text-indigo-600">This user Role is:  <%= @current_user_type %></span>
+      
+    </h1>
+  <% end %>
 
-  <p class="mt-5 mb-10 text-gray-500 sm:text-lg md:text-xl">Starter Kit to build Rails applications fast, with Ralix, Tailwind and more!</p>
-
-  <a href="https://github.com/ralixjs/rails-ralix-tailwind" class="btn">Get started</a>
-  <a href="<%= articles_path %>" class="btn btn-outline ml-4">Explore app</a>
+  <% if user_signed_in? %>
+    <div class="mt-8">
+      <p>Sign out from my account.</p>
+      <%= button_to "Sign out", destroy_user_session_path, method: :delete, class: "btn btn-outline", style: "margin-bottom: 30px;" %>
+    </div>
+    <%= link_to "Appointmens", appointments_path, class: "btn btn-outline", style: "margin-top: 30px;" %>
+  <% end %>
+  <% unless user_signed_in? %>
+   <span class="tracking-tight text-gray-900 sm:text-5xl md:text-3xl">IF you are new to the systhem please Sign up</span>
+    <p><%= link_to "Sign up", new_user_registration_path %></p>
+  <% end %>
 </div>

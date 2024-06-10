@@ -1,0 +1,4 @@
+<h1>Edit Appointment</h1>
+<%= render 'form', appointment: @appointment %>
+<%= link_to 'Back', appointments_path, class: "btn btn-info" %>
+<%= button_to "Destroy", @appointment, method: :delete, class: "btn btn-danger", style: "margin-top: 30px;" %>

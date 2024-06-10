@@ -3,31 +3,35 @@
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <a href="<%= root_path %>" class="text-white text-2xl">INDUS HOSPITAL</h2>
+          <a href="<%= root_path %>" class="text-white text-2xl">INDUS HOSPITAL</a>
         </div>
       </div>
-      <% if user_signed_in? %>
-        <% if  @current_user_type == "Doctor" %>
-          <%= link_to "Update Password", edit_password_doctor_path(current_user.id), method: :update, class: "" %>
-        <% elsif  @current_user_type == "Patient" %>
-          <%= link_to "Update Password", edit_password_patient_path(current_user.id), method: :update, class: "" %>
-        <% end %>
-      <% end %>
       <div class="hidden sm:block">
         <div class="ml-4 flex items-center md:ml-6">
           <div class="relative ml-3">
             <% if user_signed_in? %>
-              <% if  @current_user_type == "Doctor" %>
-                <a href="<%= edit_doctor_path(current_user) %>" class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm">
+              <div class="relative">
+                <button class="flex items-center text-white focus:outline-none" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
                   <%= current_user.name %>
                   <%= avatar(current_user) %>
-                </a>
-              <% elsif  @current_user_type == "Patient" %>
-                <a href="<%= edit_patient_path(current_user) %>" class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm">
-                  <%= current_user.name %>
-                  <%= avatar(current_user) %>
-                </a>
-              <% end %>
+                  <svg class="ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+                    <path fill-rule="evenodd" d="M5.292 7.292a1 1 0 011.416 0L10 10.586l3.292-3.294a1 1 0 011.416 1.416l-4 4a1 1 0 01-1.416 0l-4-4a1 1 0 010-1.416z" clip-rule="evenodd" />
+                  </svg>
+                </button>
+                <div class="hidden absolute right-0 mt-2 w-48 origin-top-right rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5" id="user-menu">
+                  <div class="py-1" role="none">
+                    <% if @current_user_type == "Doctor" %>
+                      <%= link_to 'Profile', edit_doctor_path(current_user), class: 'block px-4 py-2 text-sm text-gray-700' %>
+                      <%= link_to 'Update Password', edit_password_doctor_path(current_user.id), class: 'block px-4 py-2 text-sm text-gray-700' %>
+                    <% elsif @current_user_type == "Patient" %>
+                      <%= link_to 'Profile', edit_patient_path(current_user), class: 'block px-4 py-2 text-sm text-gray-700' %>
+                      <%= link_to 'Update Password', edit_password_patient_path(current_user.id), class: 'block px-4 py-2 text-sm text-gray-700' %>
+                    <% end %>
+                    <%= button_to "Sign Out", destroy_user_session_path, method: :delete, class: "block px-4 py-2 text-sm text-gray-700" %>
+
+                  </div>
+                </div>
+              </div>
             <% else %>
               <%= link_to "Sign in", new_user_session_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
             <% end %>
@@ -66,3 +70,10 @@
     <% end %>
   </div>
 </nav>
+
+<script>
+  document.getElementById('user-menu-button').addEventListener('click', function() {
+    var menu = document.getElementById('user-menu');
+    menu.classList.toggle('hidden');
+  });
+</script>
