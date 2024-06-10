@@ -1,4 +1,3 @@
-# app/controllers/patients_controller.rb
 class PatientsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_patient, only: %i[show edit update destroy edit_password update_password]
