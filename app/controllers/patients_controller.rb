@@ -8,7 +8,6 @@ class PatientsController < ApplicationController
   def show_patient
     @appointment =  Appointment.find_by_id(params[:id])
     @patient = @appointment.patient
-    render :show
   end
 
   def show
