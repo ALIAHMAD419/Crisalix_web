@@ -11,10 +11,28 @@ class Users::RegistrationsController < Devise::RegistrationsController
 
     if resource.role == 'Doctor'
       self.resource = Doctor.new(sign_up_params)
+      if resource.save
+        doctor_profile = resource.build_doctor_profile({})
+        unless doctor_profile.save
+          resource.errors.add(:base, "Doctor profile could not be created")
+          raise ActiveRecord::Rollback
+        end
+      else
+        raise ActiveRecord::Rollback
+      end
     elsif resource.role == 'Patient'
       self.resource = Patient.new(sign_up_params)
+      if resource.save
+        patient_profile = resource.build_patient_profile({})
+        unless patient_profile.save
+          resource.errors.add(:base, "Patient profile could not be created")
+          raise ActiveRecord::Rollback
+        end
+      else
+        raise ActiveRecord::Rollback
+      end
     end
-
+    
     resource.save
     yield resource if block_given?
 
@@ -40,5 +58,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:role])
+  end
+
+  # The path used after sign up.
+  def after_sign_up_path_for(resource)
+    if resource.role == 'Doctor'
+      doctor_path(resource) # Redirect to the doctor creation page
+    elsif resource.role == 'Patient'
+      patient_path(resource)
+    end
   end
 end

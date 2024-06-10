@@ -1,0 +1,42 @@
+<!-- app/views/doctors/edit.html.erb -->
+<h2>Edit Doctor Profile</h2>
+
+<%= form_for(@doctor, url: doctor_path(@doctor)) do |f| %>
+  <%= render "application/error_messages", object: @doctor %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div>
+    <%= f.label :gender %>
+    <%= f.select :gender, options_for_select([['Please select', ''], ['Male', 'male'], ['Female', 'female'], ['Other', 'other']], @doctor.gender) %>
+  </div>
+
+  <div>
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number %>
+  </div>
+
+  <div>
+    <%= f.label :address %>
+    <%= f.text_area :address %>
+	</div>
+
+  <h3>Doctor Profile Details</h3>
+  <%= f.fields_for :doctor_profile, @doctor.doctor_profile do |profile_fields| %>
+    <div>
+      <%= profile_fields.label :specialty %>
+      <%= profile_fields.text_field :specialty %>
+    </div>
+    <div>
+      <%= profile_fields.label :bio %>
+      <%= profile_fields.text_area :bio %>
+    </div>
+  <% end %>
+
+  <div class="form-actions">
+    <%= f.submit "Update Profile", class: "btn" %>
+  </div>
+<% end %>

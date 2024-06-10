@@ -10,9 +10,10 @@ class User < ApplicationRecord
   has_one_attached :avatar
   attr_accessor :role
   validates :email, presence: true, uniqueness: true
-  validates :password, presence: true
-  validates :role, presence: true, inclusion: { in: ['Doctor', 'Patient'] }
-  validates :type, presence: true
+  validates :role, presence: true, inclusion: { in: ['Doctor', 'Patient'] }, if: -> { new_record? }
+  validates :type, presence: true, if: -> { new_record? || type_changed? }
+  enum gender: { male: 0, female: 1, other: 2 }
+
 
   self.inheritance_column = :type # Specify the column for STI
 

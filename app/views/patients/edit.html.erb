@@ -1,0 +1,62 @@
+<!-- app/views/patients/edit.html.erb -->
+<h2>Edit Patient Profile</h2>
+
+<%= form_for(@patient, url: patient_path(@patient)) do |f| %>
+  <%= render "application/error_messages", object: @patient %>
+
+  <div>
+    <%= f.label :name %>
+    <%= f.text_field :name, autofocus: true %>
+  </div>
+
+  <div>
+    <%= f.label :gender %>
+    <%= f.select :gender, options_for_select([['Please select', ''], ['Male', 'male'], ['Female', 'female'], ['Other', 'other']], @patient.gender) %>
+  </div>
+
+  <div>
+    <%= f.label :phone_number %>
+    <%= f.text_field :phone_number, pattern: "[0-9]*", title: "Please enter only numbers" %>
+  </div>
+
+  <div>
+    <%= f.label :address %>
+    <%= f.text_area :address %>
+  </div>
+
+  <h3>Patient Profile Details</h3>
+  <%= f.fields_for :patient_profile, @patient.patient_profile do |profile_fields| %>
+    <div>
+      <%= profile_fields.label :medical_history %>
+      <%= profile_fields.text_area :medical_history %>
+    </div>
+    <div>
+      <%= profile_fields.label :date_of_birth %>
+      <%= profile_fields.date_field :date_of_birth %>
+    </div>
+    <div>
+      <%= profile_fields.label :blood_type %>
+      <%= profile_fields.select :blood_type, options_for_select([['Please select', ''], ['A+', 'A+'], ['A-', 'A-'], ['B+', 'B+'], ['B-', 'B-'], ['AB+', 'AB+'], ['AB-', 'AB-'], ['O+', 'O+'], ['O-', 'O-']], @patient.patient_profile.blood_type) %>
+    </div>
+    <div>
+      <%= profile_fields.label :allergies %>
+      <%= profile_fields.text_area :allergies %>
+    </div>
+    <div>
+      <%= profile_fields.label :emergency_contact_name %>
+      <%= profile_fields.text_field :emergency_contact_name %>
+    </div>
+    <div>
+      <%= profile_fields.label :emergency_contact_phone %>
+      <%= profile_fields.text_field :emergency_contact_phone, pattern: "[0-9]*", title: "Please enter only numbers" %>
+    </div>
+    <div>
+      <%= profile_fields.label :insurance_provider %>
+      <%= profile_fields.text_field :insurance_provider %>
+    </div>
+  <% end %>
+
+  <div class="form-actions">
+    <%= f.submit "Update Profile", class: "btn" %>
+  </div>
+<% end %>

@@ -3,23 +3,31 @@
     <div class="flex h-16 items-center justify-between">
       <div class="flex items-center">
         <div class="flex-shrink-0">
-          <a href="<%= root_path %>" class="text-white text-2xl">Starter Kit</h2>
-        </div>
-        <div class="hidden sm:block">
-          <div class="ml-8 flex items-baseline space-x-4">
-            <a href="<%= root_path %>" class="<%= nav_link_class("home") %>">Home</a>
-            <a href="<%= articles_path %>" class="<%= nav_link_class("articles") %>">Articles</a>
-            <a href="<%= users_path %>" class="<%= nav_link_class("users") %>">Users</a>
-          </div>
+          <a href="<%= root_path %>" class="text-white text-2xl">INDUS HOSPITAL</h2>
         </div>
       </div>
+      <% if user_signed_in? %>
+        <% if  @current_user_type == "Doctor" %>
+          <%= link_to "Update Password", edit_password_doctor_path(current_user.id), method: :update, class: "" %>
+        <% elsif  @current_user_type == "Patient" %>
+          <%= link_to "Update Password", edit_password_patient_path(current_user.id), method: :update, class: "" %>
+        <% end %>
+      <% end %>
       <div class="hidden sm:block">
         <div class="ml-4 flex items-center md:ml-6">
           <div class="relative ml-3">
             <% if user_signed_in? %>
-              <a href="<%= edit_user_path %>" class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm">
-                <%= avatar(current_user) %>
-              </a>
+              <% if  @current_user_type == "Doctor" %>
+                <a href="<%= edit_doctor_path(current_user) %>" class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm">
+                  <%= current_user.name %>
+                  <%= avatar(current_user) %>
+                </a>
+              <% elsif  @current_user_type == "Patient" %>
+                <a href="<%= edit_patient_path(current_user) %>" class="flex max-w-xs items-center rounded-full bg-gray-800 text-sm">
+                  <%= current_user.name %>
+                  <%= avatar(current_user) %>
+                </a>
+              <% end %>
             <% else %>
               <%= link_to "Sign in", new_user_session_path, class: "text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium" %>
             <% end %>
@@ -37,8 +45,6 @@
   <div class="sm:hidden hidden mobile-menu">
     <div class="space-y-2 px-2 pb-3 sm:px-3">
       <a href="<%= root_path %>" class="<%= nav_link_class("home", "block") %>">Home</a>
-      <a href="<%= articles_path %>" class="<%= nav_link_class("articles", "block") %>">Articles</a>
-      <a href="<%= users_path %>" class="<%= nav_link_class("users", "block") %>">Users</a>
       <% unless user_signed_in? %>
         <a href="<%= new_user_session_path %>" class="<%= nav_link_class(nil, "block") %>">Sign in</a>
       <% end %>
